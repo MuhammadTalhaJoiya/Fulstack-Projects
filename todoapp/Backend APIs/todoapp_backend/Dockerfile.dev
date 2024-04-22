@@ -1,6 +1,9 @@
 FROM python:3.12
-WORKDIR /copy
-RUN pip install poetry 
-COPY . /copy/
+LABEL maintainer="Muhammad-Talha"
+WORKDIR /code
+RUN pip install poetry
+COPY . /code/
+RUN poetry config virtualenvs.create false
 RUN poetry install
-CMD ["poetry" "run" "uvicorn" "todoapp_backend.main:app" "--reload"]
+EXPOSE 8000
+CMD ["poetry", "run", "uvicorn", "todoapp_backend.main:app", "--host", "0.0.0.0", "--reload"]
